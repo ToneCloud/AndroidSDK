@@ -37,27 +37,27 @@ public class MySQLImpl implements MySQL {
 
     @Override
     public void delete(String table, String where, ToneCloudListener listener) {
-
+        ToneHttpClient.get(deleteUrl(table,where),listener);
     }
 
     @Override
     public void insert(String table, String column, String value, ToneCloudCallback callback) {
-
+        ToneHttpClient.get(insertUrl(table, column, value),callback);
     }
 
     @Override
     public void update(String table, String set, String where, ToneCloudCallback callback) {
-
+        ToneHttpClient.get(updateUrl(table, set, where),callback);
     }
 
     @Override
     public void select(String table, String column, String where, ToneCloudCallback callback) {
-
+        ToneHttpClient.get(selectUrl(table, column, where),callback);
     }
 
     @Override
     public void delete(String table, String where, ToneCloudCallback callback) {
-
+        ToneHttpClient.get(deleteUrl(table, where),callback);
     }
 
     private String insertUrl(String table, String column, String value) {
