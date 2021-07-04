@@ -32,9 +32,20 @@ public class ToneHttpClient {
 
     public static void get(String url, ToneCloudCallback callback) {
         if (Build.VERSION.SDK_INT >= 24) {
-            CompletableFuture.runAsync(() -> toneGet(url, callback));
+            CompletableFuture.runAsync(new Runnable() {
+                @Override
+                public void run() {
+                    toneGet(url, callback);
+                }
+            });
         } else {
-            new Thread(() -> toneGet(url, callback)).start();
+            // new Thread(() -> toneGet(url, callback)).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    toneGet(url, callback);
+                }
+            }).start();
         }
     }
 
@@ -52,10 +63,22 @@ public class ToneHttpClient {
             String finalCode = code;
             message = RC4Util.decryRC4(message);
             String finalMessage = message;
-            ToneCloud.getHandler().post( () -> callback.onDone(new ToneResponse(finalCode, finalMessage)));
+            // ToneCloud.getHandler().post( () -> callback.onDone(new ToneResponse(finalCode, finalMessage)));
+            ToneCloud.getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onDone(new ToneResponse(finalCode, finalMessage));
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
-            ToneCloud.getHandler().post( () -> callback.onError(e));
+            // ToneCloud.getHandler().post( () -> callback.onError(e));
+            ToneCloud.getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(e);
+                }
+            });
         }
     }
 
@@ -67,24 +90,37 @@ public class ToneHttpClient {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private static void getH(String url, ToneCloudListener listener) {
-        CompletableFuture.runAsync(() -> {
-            try {
-                String s = get(url);
-                JSONObject jsonObject = new JSONObject(s);
-                String code;
+        CompletableFuture.runAsync(new Runnable() {
+            @Override
+            public void run() {
                 try {
-                    code = jsonObject.getInt("code") + "";
+                    String s = get(url);
+                    JSONObject jsonObject = new JSONObject(s);
+                    String code;
+                    try {
+                        code = jsonObject.getInt("code") + "";
+                    } catch (Exception e) {
+                        code = jsonObject.getString("code");
+                    }
+                    String message = jsonObject.getString("message");
+                    String finalCode = code;
+                    message = RC4Util.decryRC4(message);
+                    String finalMessage = message;
+                    ToneCloud.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onDone(new ToneResponse(finalCode, finalMessage));
+                        }
+                    });
                 } catch (Exception e) {
-                    code = jsonObject.getString("code");
+                    e.printStackTrace();
+                    ToneCloud.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onError(new ToneResponse("error", e.getMessage()));
+                        }
+                    });
                 }
-                String message = jsonObject.getString("message");
-                String finalCode = code;
-                message = RC4Util.decryRC4(message);
-                String finalMessage = message;
-                ToneCloud.getHandler().post( () -> listener.onDone(new ToneResponse(finalCode, finalMessage)));
-            } catch (Exception e) {
-                e.printStackTrace();
-                ToneCloud.getHandler().post( () -> listener.onError(new ToneResponse("error", e.getMessage())));
             }
         });
 
@@ -96,24 +132,39 @@ public class ToneHttpClient {
      * @param listener 回调
      */
     private static void getL(String url,ToneCloudListener listener) {
-        new Thread(() -> {
-            try {
-                String s = get(url);
-                JSONObject jsonObject = new JSONObject(s);
-                String code;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 try {
-                    code = jsonObject.getInt("code") + "";
+                    String s = get(url);
+                    JSONObject jsonObject = new JSONObject(s);
+                    String code;
+                    try {
+                        code = jsonObject.getInt("code") + "";
+                    } catch (Exception e) {
+                        code = jsonObject.getString("code");
+                    }
+                    String message = jsonObject.getString("message");
+                    String finalCode = code;
+                    message = RC4Util.decryRC4(message);
+                    String finalMessage = message;
+                    // ToneCloud.getHandler().post( () -> listener.onDone(new ToneResponse(finalCode, finalMessage)));
+                    ToneCloud.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onDone(new ToneResponse(finalCode, finalMessage));
+                        }
+                    });
                 } catch (Exception e) {
-                    code = jsonObject.getString("code");
+                    e.printStackTrace();
+                    // ToneCloud.getHandler().post( () -> listener.onError(new ToneResponse("error", e.getMessage())));
+                    ToneCloud.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onError(new ToneResponse("error", e.getMessage()));
+                        }
+                    });
                 }
-                String message = jsonObject.getString("message");
-                String finalCode = code;
-                message = RC4Util.decryRC4(message);
-                String finalMessage = message;
-                ToneCloud.getHandler().post( () -> listener.onDone(new ToneResponse(finalCode, finalMessage)));
-            } catch (Exception e) {
-                e.printStackTrace();
-                ToneCloud.getHandler().post( () -> listener.onError(new ToneResponse("error", e.getMessage())));
             }
         }).start();
     }
