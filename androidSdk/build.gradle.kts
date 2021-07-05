@@ -37,3 +37,25 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }
+
+
+tasks.register<Delete>("clearLibsDir") {
+    delete("build/libs")
+}
+
+tasks.register<Jar>("makeJar") {
+    dependsOn("clearLibsDir")
+    archiveBaseName.set("ToneCloud-SDKv${Versions.tone}")
+    from("build/intermediates/javac/release/classes/")
+    from("build/tmp/kotlin-classes/release/")
+    exclude("android/")
+    exclude { it.name.startsWith("R$") }
+    into("/")
+}
+
+tasks.register<Copy>("copyJar") {
+    dependsOn("makeJar")
+    group = "tone"
+    from("build/libs")
+    into("build/../libs")
+}
