@@ -49,6 +49,7 @@ tasks.register<Delete>("clearLibsDir") {
 
 tasks.register<Jar>("makeJar") {
     dependsOn("clearLibsDir")
+    dependsOn("build")
     archiveBaseName.set("ToneCloud-SDKv${Versions.tone}")
     from("build/intermediates/javac/release/classes/")
     from("build/tmp/kotlin-classes/release/")

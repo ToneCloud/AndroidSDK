@@ -32,7 +32,7 @@ public suspend fun MySQL.update(table: String,set: String,where: String): ToneRe
     }
 }
 
-suspend fun MySQL.select(table: String,column: String,where: String): ToneResponse {
+public suspend fun MySQL.select(table: String,column: String,where: String): ToneResponse {
     return suspendCoroutine { continuation ->
         select(table, column, where, object : ToneCloudCallback {
             override fun onDone(response: ToneResponse) {
@@ -45,7 +45,7 @@ suspend fun MySQL.select(table: String,column: String,where: String): ToneRespon
     }
 }
 
-suspend fun MySQL.delete(table: String,where: String): ToneResponse {
+public suspend fun MySQL.delete(table: String,where: String): ToneResponse {
     return suspendCoroutine { continuation ->
         delete(table, where, object : ToneCloudCallback {
             override fun onDone(response: ToneResponse) {
