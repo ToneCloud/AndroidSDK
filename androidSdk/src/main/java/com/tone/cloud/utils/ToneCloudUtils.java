@@ -22,8 +22,11 @@ public class ToneCloudUtils {
         return MD5Util.md5(ToneCloud.getPublicKey() + str + ToneCloud.getPrivateKey());
     }
 
-    public static String rc4(String input,String key) {
+    public static String encryRC4String(String data) {
+        return RC4Util.encryRC4String(data);
+    }
 
-        return "";
+    public static String decryRC4(String data) {
+        return RC4Util.decryRC4(data);
     }
 }

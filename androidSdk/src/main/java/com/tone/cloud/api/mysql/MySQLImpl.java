@@ -4,7 +4,6 @@ import com.tone.cloud.ToneCloud;
 import com.tone.cloud.ToneCloudCallback;
 import com.tone.cloud.ToneCloudListener;
 import com.tone.cloud.net.ToneHttpClient;
-import com.tone.cloud.utils.RC4Util;
 import com.tone.cloud.utils.ToneCloudUtils;
 
 public class MySQLImpl implements MySQL {
@@ -63,9 +62,9 @@ public class MySQLImpl implements MySQL {
     private String insertUrl(String table, String column, String value) {
         StringBuilder sb = new StringBuilder();
         String type = "insert";
-        String rTable = RC4Util.encryRC4String(table);
-        String rColumn = RC4Util.encryRC4String(column);
-        String rValue = RC4Util.encryRC4String(value);
+        String rTable = ToneCloudUtils.encryRC4String(table);
+        String rColumn = ToneCloudUtils.encryRC4String(column);
+        String rValue = ToneCloudUtils.encryRC4String(value);
         String signature = ToneCloudUtils.md5WithKeys(type + table + column + value);
         sb.append(baseUrl)
                 .append("?type=").append(type)
@@ -81,9 +80,9 @@ public class MySQLImpl implements MySQL {
     private String updateUrl(String table, String set, String where) {
         StringBuilder sb = new StringBuilder();
         String type = "update";
-        String rTable = RC4Util.encryRC4String(table);
-        String rSet = RC4Util.encryRC4String(set);
-        String rWhere = RC4Util.encryRC4String(where);
+        String rTable = ToneCloudUtils.encryRC4String(table);
+        String rSet = ToneCloudUtils.encryRC4String(set);
+        String rWhere = ToneCloudUtils.encryRC4String(where);
         String signature = ToneCloudUtils.md5WithKeys(type + table + set+ where);
         sb.append(baseUrl)
                 .append("?type=").append(type)
@@ -98,9 +97,9 @@ public class MySQLImpl implements MySQL {
     private String selectUrl(String table, String column, String where) {
         StringBuilder sb = new StringBuilder();
         String type = "select";
-        String rTable = RC4Util.encryRC4String(table);
-        String rColumn = RC4Util.encryRC4String(column);
-        String rWhere = RC4Util.encryRC4String(where);
+        String rTable = ToneCloudUtils.encryRC4String(table);
+        String rColumn = ToneCloudUtils.encryRC4String(column);
+        String rWhere = ToneCloudUtils.encryRC4String(where);
         String signature = ToneCloudUtils.md5WithKeys(type + table + column + where);
         sb.append(baseUrl)
                 .append("?type=").append(type)
@@ -115,8 +114,8 @@ public class MySQLImpl implements MySQL {
     private String deleteUrl(String table, String where) {
         StringBuilder sb = new StringBuilder();
         String type = "delete";
-        String rTable = RC4Util.encryRC4String(table);
-        String rWhere = RC4Util.encryRC4String(where);
+        String rTable = ToneCloudUtils.encryRC4String(table);
+        String rWhere = ToneCloudUtils.encryRC4String(where);
         String signature = ToneCloudUtils.md5WithKeys(type + table+ where);
         sb.append(baseUrl)
                 .append("?type=").append(type)

@@ -8,14 +8,13 @@ import com.tone.cloud.ToneCloud;
 import com.tone.cloud.ToneCloudCallback;
 import com.tone.cloud.ToneCloudListener;
 import com.tone.cloud.api.ToneResponse;
-import com.tone.cloud.utils.RC4Util;
+import com.tone.cloud.utils.ToneCloudUtils;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
@@ -61,7 +60,7 @@ public class ToneHttpClient {
             }
             String message = jsonObject.getString("message");
             String finalCode = code;
-            message = RC4Util.decryRC4(message);
+            message = ToneCloudUtils.decryRC4(message);
             String finalMessage = message;
             // ToneCloud.getHandler().post( () -> callback.onDone(new ToneResponse(finalCode, finalMessage)));
             ToneCloud.getHandler().post(new Runnable() {
@@ -104,7 +103,7 @@ public class ToneHttpClient {
                     }
                     String message = jsonObject.getString("message");
                     String finalCode = code;
-                    message = RC4Util.decryRC4(message);
+                    message = ToneCloudUtils.decryRC4(message);
                     String finalMessage = message;
                     ToneCloud.getHandler().post(new Runnable() {
                         @Override
@@ -146,7 +145,7 @@ public class ToneHttpClient {
                     }
                     String message = jsonObject.getString("message");
                     String finalCode = code;
-                    message = RC4Util.decryRC4(message);
+                    message = ToneCloudUtils.decryRC4(message);
                     String finalMessage = message;
                     // ToneCloud.getHandler().post( () -> listener.onDone(new ToneResponse(finalCode, finalMessage)));
                     ToneCloud.getHandler().post(new Runnable() {

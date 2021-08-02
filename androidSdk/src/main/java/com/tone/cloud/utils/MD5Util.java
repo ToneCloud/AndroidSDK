@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 class MD5Util {
 
 
-    public static String md5(String str) {
+    static String md5(String str) {
         if (str == null) return "";
         StringBuilder sb = new StringBuilder();
         byte[] md5Bytes = md5(str.getBytes());
@@ -20,7 +20,7 @@ class MD5Util {
         return sb.toString();
     }
 
-    public static byte[] md5(byte[] bytes) {
+    static byte[] md5(byte[] bytes) {
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("MD5");

@@ -6,7 +6,7 @@ import com.tone.cloud.ToneCloud;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-public class RC4Util {
+class RC4Util {
 
     /**
      * RC4加密，将加密后的数据进行哈希
@@ -17,14 +17,14 @@ public class RC4Util {
      * @return 返回加密后的数据
      * @throws UnsupportedEncodingException
      */
-    public static String encryRC4String(String data, String key, String chartSet) throws UnsupportedEncodingException {
+    static String encryRC4String(String data, String key, String chartSet) throws UnsupportedEncodingException {
         if (data == null || key == null) {
             return null;
         }
         return bytesToHex(encryRC4Byte(data, key, chartSet));
     }
 
-    public static String encryRC4String(String data) {
+    static String encryRC4String(String data) {
         try {
             return encryRC4String(data,ToneCloud.getPrivateKey(),"UTF-8");
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class RC4Util {
      * @return 返回加密后的数据
      * @throws UnsupportedEncodingException
      */
-    public static byte[] encryRC4Byte(String data, String key, String chartSet) throws UnsupportedEncodingException {
+    static byte[] encryRC4Byte(String data, String key, String chartSet) throws UnsupportedEncodingException {
         if (data == null || key == null) {
             return null;
         }
@@ -64,14 +64,14 @@ public class RC4Util {
      * @return 返回解密后的数据
      * @throws UnsupportedEncodingException
      */
-    public static String decryRC4(String data, String key, String chartSet) throws UnsupportedEncodingException {
+    static String decryRC4(String data, String key, String chartSet) throws UnsupportedEncodingException {
         if (data == null || key == null) {
             return null;
         }
         return new String(RC4Base(hexToByte(data), key), chartSet);
     }
 
-    public static String decryRC4(String data) {
+    static String decryRC4(String data) {
         try {
             return decryRC4(data,ToneCloud.getPrivateKey(),"UTF-8");
         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class RC4Util {
      * @param bytes
      * @return
      */
-    public static String bytesToHex(byte[] bytes) {
+    static String bytesToHex(byte[] bytes) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < bytes.length; i++) {
             String hex = Integer.toHexString(bytes[i] & 0xFF);
@@ -133,7 +133,7 @@ public class RC4Util {
      * @param inHex
      * @return
      */
-    public static byte[] hexToByte(String inHex) {
+    static byte[] hexToByte(String inHex) {
         int hexlen = inHex.length();
         byte[] result;
         if (hexlen % 2 == 1) {

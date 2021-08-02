@@ -6,7 +6,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-suspend fun MySQL.insert(table: String,column: String,value: String): ToneResponse{
+public suspend fun MySQL.insert(table: String,column: String,value: String): ToneResponse {
     return suspendCoroutine { continuation ->
         insert(table, column, value,object : ToneCloudCallback {
             override fun onDone(response: ToneResponse) {
@@ -19,7 +19,7 @@ suspend fun MySQL.insert(table: String,column: String,value: String): ToneRespon
     }
 }
 
-suspend fun MySQL.update(table: String,set: String,where: String): ToneResponse {
+public suspend fun MySQL.update(table: String,set: String,where: String): ToneResponse {
     return suspendCoroutine { continuation ->
         update(table, set, where,object : ToneCloudCallback {
             override fun onDone(response: ToneResponse) {
