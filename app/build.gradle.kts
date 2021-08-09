@@ -33,8 +33,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.2.1")
 
-    // implementation(project(":androidSdk"))
-    implementation(fileTree(mapOf("dir" to "libs","include" to listOf("*.jar"))))
+    implementation(project(":androidSdk"))
+    //implementation(fileTree(mapOf("dir" to "libs","include" to listOf("*.jar"))))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
