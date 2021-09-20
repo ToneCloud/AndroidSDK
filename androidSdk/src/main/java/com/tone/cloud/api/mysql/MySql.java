@@ -32,7 +32,7 @@ public class MySql {
 
     public void insert(String table, String column, String value, ToneCloudCallback callback) {
         MysqlJsonBuilder jsonBuilder = new MysqlJsonBuilder();
-        jsonBuilder.type(MySqlType.INERT);
+        jsonBuilder.type(MySqlType.INSERT);
         jsonBuilder.table(table);
         jsonBuilder.column(column);
         jsonBuilder.value(value);

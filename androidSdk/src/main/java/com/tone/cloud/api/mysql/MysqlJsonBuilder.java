@@ -15,7 +15,8 @@ public class MysqlJsonBuilder {
     public String build() {
         checkParams();
         switch (mySqlType) {
-            case INERT: {
+            case INERT:
+            case INSERT: {
                 return buildInsert();
             }
             case DELETE: {
@@ -56,6 +57,10 @@ public class MysqlJsonBuilder {
 
     public void where(String value) {
         append("where",value);
+    }
+
+    public void where(Where value) {
+        append("where",value.toString());
     }
 
     public void value(String value) {
@@ -193,4 +198,38 @@ public class MysqlJsonBuilder {
         return "\"" + value + "\"";
     }
 
+
+    public static class Where {
+
+        private final StringBuilder value = new StringBuilder();
+
+        private Where() {
+
+        }
+
+        public static Where create() {
+            return new Where();
+        }
+
+        public Where addCompare(String first, String second, String operator) {
+            value.append(" ").append(first).append(" ").append(operator).append(" ").append(second).append(" ");
+            return this;
+        }
+
+        public Where addEqual(String first, String second) {
+            return addCompare(first,second,"+");
+        }
+
+        public Where and(String first, String second, String operator) {
+            value.append(" ").append("and").append(" ");
+            return addCompare(first, second, operator);
+        }
+
+
+
+        @Override
+        public String toString() {
+            return value.toString();
+        }
+    }
 }

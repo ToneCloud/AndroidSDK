@@ -1,5 +1,17 @@
 package com.tone.cloud.api.mysql;
 
 public enum MySqlType {
-    SELECT,UPDATE,INERT,DELETE,CMD
+
+    SELECT,
+
+    UPDATE,
+
+    @Deprecated
+    INERT,
+
+    INSERT,
+
+    DELETE,
+
+    CMD
 }

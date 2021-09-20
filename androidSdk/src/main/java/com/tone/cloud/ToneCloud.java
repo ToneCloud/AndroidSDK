@@ -1,14 +1,15 @@
 package com.tone.cloud;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.tone.cloud.api.mysql.MySql;
 
 public class ToneCloud {
     static {
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
     }
-    private static Handler handler;
+    private static final Handler handler;
     private static String privateKey = "";
     private static String publicKey = "";
 
